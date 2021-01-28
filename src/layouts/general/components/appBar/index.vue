@@ -12,6 +12,7 @@
     <!-- Search bar -->
     <searchbar />
     <v-spacer />
+    <refresh-menu-appbar-general />
     <!--    언어팩 -->
     <language-menu />
     <!-- Notification 메뉴 -->
@@ -51,10 +52,11 @@ import AuthMenu from '@/layouts/general/components/appBar/components/AuthMenu.vu
 import LanguageMenu from '@/layouts/general/components/appBar/components/LanguageMenu.vue'
 import Searchbar from '@/layouts/general/components/appBar/components/Searchbar.vue'
 import NotificationMenu from '@/components/menu/Notification/index.vue'
+import RefreshMenuAppbarGeneral from '@/layouts/general/components/appBar/components/Refresh.vue'
 
 @Component({
   name: 'AppBar',
-  components: { NotificationMenu, Searchbar, LanguageMenu, AuthMenu }
+  components: { RefreshMenuAppbarGeneral, NotificationMenu, Searchbar, LanguageMenu, AuthMenu }
 })
 export default class AppBar extends Vue {
   mounted () {

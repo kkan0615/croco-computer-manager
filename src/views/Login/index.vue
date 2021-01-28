@@ -28,7 +28,7 @@
           <v-img
             contain
             height="200px"
-            src="@/assets/uvclogo_ubiquitous-Via-Connect.png"
+            src="https://png.pngtree.com/png-vector/20200423/ourmid/pngtree-cute-crocodile-cartoon-illustration-png-image_2191787.jpg"
             alt="logo"
           />
         </v-card-title>

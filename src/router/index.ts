@@ -3,8 +3,7 @@ import GeneralLayout from '@/layouts/general/index.vue'
 import VueRouter from 'vue-router'
 import { ExtendedRouteConfig } from '@/interfaces/system/router'
 import AuthLayout from '@/layouts/Auth/index.vue'
-import { ExampleRouter } from '@/router/modules/example.ts'
-import { TempRouter } from '@/router/modules/temp.ts'
+import { mainRouter } from '@/router/modules/main'
 
 Vue.use(VueRouter)
 
@@ -15,20 +14,19 @@ const routes: Array<ExtendedRouteConfig> = [
     meta:{
       hidden: true,
     },
-    //Todo: home component 만들어서 bind
     component: GeneralLayout,
     children: [
       {
         path: '/',
         name: 'Home',
-        meta: {
-          hidden: true,
+        meta:{
+          icon: 'shop',
         },
         component: () => import('@/views/Home/index.vue'),
-      }
+      },
+      ...mainRouter
     ]
   },
-  ...TempRouter,
   {
     path: '/auth',
     name: 'Auth',
@@ -55,7 +53,6 @@ const routes: Array<ExtendedRouteConfig> = [
     },
     component: () => import('../views/error/NotFound/index.vue'),
   },
-  ...ExampleRouter,
 ]
 
 const router = new VueRouter({

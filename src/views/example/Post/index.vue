@@ -4,8 +4,8 @@
     <v-row>
       <v-col cols="8">
         <v-text-field
-          label="Post & Get 요청 주소"
           v-model="address"
+          label="Post & Get 요청 주소"
         />
       </v-col>
       <v-col cols="1">

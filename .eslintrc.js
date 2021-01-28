@@ -35,7 +35,7 @@ module.exports = {
       'always'
     ],
     '@typescript-eslint/no-explicit-any': 'off',
-    "keyword-spacing": [2, {"before": true, "after": true}],
+    'keyword-spacing': [2, { 'before': true, 'after': true }],
     'comma-spacing': ['error', { 'before': false, 'after': true }],
     '@typescript-eslint/no-empty-function': ['error', { 'allow': ['functions', 'arrowFunctions'] }],
     'no-empty-function': ['error', { 'allow': ['functions', 'arrowFunctions'] }],
@@ -56,21 +56,21 @@ module.exports = {
     'no-trailing-spaces': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
-    "@typescript-eslint/member-delimiter-style": ["error", {
+    '@typescript-eslint/member-delimiter-style': ['error', {
       multiline: {
         delimiter: 'none',    // 'none' or 'semi' or 'comma'
         requireLast: true,
       }
     }],
-    "@typescript-eslint/naming-convention": [
-      "error",
+    '@typescript-eslint/naming-convention': [
+      'error',
       {
-        selector: "typeLike",
-        format: ["PascalCase"]
+        selector: 'typeLike',
+        format: ['PascalCase']
       },
       {
-        selector: "class",
-        format: ["PascalCase"]
+        selector: 'class',
+        format: ['PascalCase']
       },
     ],
   },

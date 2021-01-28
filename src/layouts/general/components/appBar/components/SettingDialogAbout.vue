@@ -13,7 +13,7 @@
         >
           <v-img
             alt="logo"
-            src="@/assets/uvcLogo.png"
+            src="https://png.pngtree.com/png-vector/20200423/ourmid/pngtree-cute-crocodile-cartoon-illustration-png-image_2191787.jpg"
           />
         </v-card>
         <div

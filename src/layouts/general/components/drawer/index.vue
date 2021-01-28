@@ -4,53 +4,46 @@
     app
     :value="isFullClosingMode"
     :width="220"
-    :mini-variant="$store.getters['application/isMiniVariant']"
-    :expand-on-hover="$store.getters['application/isMiniVariant']"
-    :mini-variant-width="70"
+    mini-variant
+    :mini-variant-width="80"
     mobile-breakpoint="xs"
     @input="onChangeDrawer"
   >
-    <!--    v-if="$store.getters['application/isOpenDrawer']"-->
     <div
       class="pa-5 cursor-pointer"
       @click="moveToHome"
     >
       <v-img
         alt="logo"
-        src="@/assets/uvcLogo.png"
+        src="https://png.pngtree.com/png-vector/20200423/ourmid/pngtree-cute-crocodile-cartoon-illustration-png-image_2191787.jpg"
       />
     </div>
     <v-divider />
-    <v-list
-      v-for="children of menu"
-      :key="children.name"
-      dense
-      nav
-      class="py-0"
+    <div
+      v-for="router of mainMenus"
+      :key="router.name"
     >
-      <navigation-menu-contents
-        v-if="!children.meta.hidden"
-        :program="children"
-        parent-path=""
+      <nav-menu-content
+        :program="router"
       />
-    </v-list>
+    </div>
   </v-navigation-drawer>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import NavigationMenuContents from '@/layouts/general/components/drawer/components/navigation-menu-contents.vue'
+import NavMenuContent from '@/layouts/general/components/drawer/components/NavMenuContent.vue'
 import { RouteConfig } from 'vue-router'
-
+import { mainRouter } from '@/router/modules/main'
 @Component({
   name: 'Drawer',
   components: {
-    NavigationMenuContents
+    NavMenuContent
   }
 })
 export default class Drawer extends Vue {
   // @TODO: router를 vuex에 넣는 것은 조금 나중에 하겠음
-  private menu: Array<RouteConfig> = []
+  private mainMenus: Array<RouteConfig> = mainRouter
 
   /**
    * miniVariant 모드이면 무조건 full closing mode가 아님
@@ -61,11 +54,11 @@ export default class Drawer extends Vue {
     return this.$store.getters['application/isOpenDrawer']
   }
 
-  created () {
-    if (this.$router.options.routes && this.$router.options) {
-      this.menu = this.$router.options.routes.filter(each => !each.meta.hidden)
-    }
-  }
+  // created () {
+  //   if (this.$router.options.routes && this.$router.options) {
+  //     this.menu = this.$router.options.routes.filter(each => !each.meta.hidden)
+  //   }
+  // }
 
   /**
    * @param bool - expand hover has been changed
