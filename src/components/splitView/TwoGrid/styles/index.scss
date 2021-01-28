@@ -1,0 +1,12 @@
+.two-grid-split-view {
+  height: 100%;
+  display: flex;
+  width: 100%;
+
+  .resizer {
+    height: 100%;
+    min-width: 3px;
+    background-color: var(--v-secondary-base);
+    cursor: col-resize;
+  }
+}

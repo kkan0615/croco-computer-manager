@@ -1,0 +1,27 @@
+.triple-grid-split-view {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
+  flex: 1 1 0%;
+
+  .top-section {
+    display: flex;
+    height: 30%;
+    flex-direction: row;
+  }
+
+  .verticalResizer {
+    height: 100%;
+    min-width: 5px;
+    background-color: var(--v-secondary-base);
+    cursor: col-resize;
+  }
+
+  .horizontalResizer {
+    width: 100%;
+    min-height: 5px;
+    background-color: var(--v-secondary-base);
+    cursor: row-resize;
+  }
+}
