@@ -9,6 +9,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ipcRenderer } from 'electron'
+import systeminformation from 'systeminformation'
+
 import moment from 'moment'
 import Os from 'os'
 const os = window.require('os') as typeof Os
@@ -23,7 +26,8 @@ export default class Home extends Vue {
   private test: any = ''
   private days: any = ''
 
-  created () {
+  async created () {
+    ipcRenderer.on('testIpc', this.testIpc)
     this.os = os.cpus()
     this.uptime = os.uptime()
     const minutes = this.uptime / 3600
@@ -33,7 +37,19 @@ export default class Home extends Vue {
     const time = moment.utc(this.uptime * 1000).locale('ko')
     this.test = time.format('HH:mm:ss')
     this.days = time.date() - 1
+
+    console.log(process.getCPUUsage())
+    console.log(await systeminformation.graphics())
+    ipcRenderer.send('testIpc')
+    // const batteryData = await systeminformation.battery()
+    // console.log(batteryData.hasBattery)
+    console.log('hi')
     // this.test = moment.duration(this.uptime)
   }
+
+  private testIpc () {
+    console.log('testIpc')
+  }
+
 }
 </script>

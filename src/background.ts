@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, protocol, BrowserWindow } from 'electron'
+import systeminformation from 'systeminformation'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -20,7 +21,7 @@ async function createWindow () {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       // nodeIntegration: (process.env
       //   .ELECTRON_NODE_INTEGRATION as unknown) as boolean
-      nodeIntegration: true
+      nodeIntegration: true,
     }
   })
 
@@ -58,11 +59,12 @@ app.on('ready', async () => {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS_DEVTOOLS)
+      // console.log('testing...', await systeminformation.graphics())
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createWindow()
+  await createWindow()
 })
 
 // Exit cleanly on request from parent process in development mode.

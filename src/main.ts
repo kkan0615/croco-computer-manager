@@ -27,6 +27,7 @@ import 'devextreme/dist/css/dx.softblue.compact.css'
 import 'devextreme/dist/css/dx.light.css'
 //import 'devextreme/dist/css/dx.carmine.css'
 //import 'devextreme/dist/css/dx.dark.css'
+import systeminformation from 'systeminformation'
 
 Vue.config.productionTip = false
 

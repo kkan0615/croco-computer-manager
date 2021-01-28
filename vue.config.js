@@ -9,6 +9,9 @@ module.exports = {
       fallbackLocale: 'ko',
       localeDir: 'locales',
       enableInSFC: true
+    },
+    electronBuilder: {
+      nodeIntegration: true
     }
   }
 }
