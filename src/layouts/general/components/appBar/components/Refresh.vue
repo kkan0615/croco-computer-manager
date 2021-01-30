@@ -1,6 +1,7 @@
 <template>
   <v-btn
     icon
+    small
     @click="refresh"
   >
     <v-icon>

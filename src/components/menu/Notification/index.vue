@@ -7,20 +7,17 @@
     transition="scale-transition"
   >
     <template #activator="{ on, attrs }">
-      <v-badge
-        class="mr-3"
-        overlap
-        bordered
-        :content="notifications.length"
-        @click="open = true"
+      <v-btn
+        class="shake-btn"
+        icon
+        v-bind="attrs"
+        small
+        v-on="on"
       >
-        <v-icon
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-icon>
           notifications
         </v-icon>
-      </v-badge>
+      </v-btn>
     </template>
     <v-card
       elevation="0"
@@ -74,3 +71,23 @@ export default class NotificationMenu extends Vue {
   }
 }
 </script>
+<style>
+  .shake-btn:hover {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+</style>

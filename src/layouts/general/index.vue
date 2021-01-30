@@ -32,9 +32,8 @@ export default class GeneralLayout extends Vue {
 
 <style scoped lang="scss">
   .app-bar {
-    height: 3.4em !important;
   }
   .main {
-    height: calc(100vh - 3.4em) !important;
+    height: calc(100vh - 30px) !important;
   }
 </style>

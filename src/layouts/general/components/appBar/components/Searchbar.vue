@@ -12,7 +12,6 @@
       :label="$t('general.searchBar.label')"
       dense
       filled
-      rounded
       single-line
       hide-details
       clearable
@@ -72,7 +71,7 @@ export default class Searchbar extends Vue {
 }
 </script>
 <style scoped lang="scss">
-  .searchbar {
+  .searchbar:focus {
     transition: all .2s ease-in-out;
   }
 </style>

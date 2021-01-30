@@ -10,11 +10,12 @@
       <v-btn
         icon
         v-bind="attrs"
+        small
         v-on="on"
       >
         <v-avatar
           v-if="user.image"
-          size="36"
+          size="28"
         >
           <img
             :src="user.image"
