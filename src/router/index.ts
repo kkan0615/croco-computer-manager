@@ -11,7 +11,7 @@ const routes: Array<ExtendedRouteConfig> = [
   {
     path: '/',
     name: 'GeneralLayout',
-    meta:{
+    meta: {
       hidden: true,
     },
     component: GeneralLayout,
@@ -56,7 +56,7 @@ const routes: Array<ExtendedRouteConfig> = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes,
 })

@@ -17,8 +17,9 @@ import { Component, Vue } from 'vue-property-decorator'
   name: 'RefreshMenuAppbarGeneral'
 })
 export default class RefreshMenuAppbarGeneral extends Vue {
-  private refresh () {
-    location.reload()
+  public async refresh () {
+    // location.reload()
+    await this.$router.go(0)
   }
 }
 </script>

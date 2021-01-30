@@ -23,9 +23,22 @@ import FullScreenLoading from '@/components/Loding/index.vue'
   }
 })
 export default class Prototype extends Vue {
+  private cpuInterval: any = null
+
   async created () {
     await this.preLoadInfo()
+    // this.cpuInterval = setInterval(async () => {
+    //   await this.$store.dispatch('cpu/observeCpu')
+    // }, 1000)
   }
+
+  beforeDestroy () {
+    if (this.cpuInterval) {
+      clearInterval(this.cpuInterval)
+      this.cpuInterval = null
+    }
+  }
+
   /**
    * @description Use it to set the style in script tag
    * @return string - completed string of style
