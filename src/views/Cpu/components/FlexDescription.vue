@@ -27,8 +27,5 @@ export default class FlexDescriptionCpu extends Vue {
   private readonly label !: string
   @Prop({ type: [String, Number], required: true })
   private readonly content !: string | number
-  created () {
-    this.$vuetify.breakpoint.mdAndUp
-  }
 }
 </script>

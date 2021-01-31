@@ -26,5 +26,27 @@ npm install
 npm run lint
 ```
 
+# Main Menu Group
+```
+SYSTEM + GENERAL
+CPU
+Memory
+Battery (If ex)
+Graphics
+OS
+Processors
+Services
+Disks
+USB
+Printer
+Audio
+Network
+Wifi
+Bluetooth
+Docker
+Virtual
+Observers
+```
+
 
 # In the future

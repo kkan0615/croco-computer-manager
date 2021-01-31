@@ -27,9 +27,9 @@ export default class Prototype extends Vue {
 
   async created () {
     await this.preLoadInfo()
-    // this.cpuInterval = setInterval(async () => {
-    //   await this.$store.dispatch('cpu/observeCpu')
-    // }, 1000)
+    this.cpuInterval = setInterval(async () => {
+      await this.$store.dispatch('cpu/observeCpu')
+    }, 1000)
   }
 
   beforeDestroy () {

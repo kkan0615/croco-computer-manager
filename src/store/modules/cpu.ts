@@ -72,14 +72,11 @@ const actions = {
     const cpu = await si.cpu()
     // console.log(si.cpuCurrentspeed())
     // @TODO: Systeminfomation에 버그가 존재함, 이름이 틀림
-    const speedDetail = await (si as any).cpuCurrentSpeed()
+    const speedDetail = await si.cpuCurrentSpeed()
     const temperature = await si.cpuTemperature()
     const cachedCpu = await si.cpuCache()
     const load = await si.currentLoad()
     const fullLoad = await si.fullLoad()
-
-    console.log(load)
-    console.log(fullLoad)
 
     commit('SET_CPU_INFO', {
       ...cpu,
@@ -111,9 +108,10 @@ const actions = {
     commit('SET_CPU_CACHE', payload)
   },
   async observeCpu ({ commit }) {
-    const speedDetail = await (si as any).cpuCurrentSpeed()
+    const speedDetail = await si.cpuCurrentSpeed()
     commit('SET_CPU_SPEED_DETAIL', speedDetail)
     const temperature = await si.cpuTemperature()
+    console.log(temperature)
     commit('SET_CPU_TEMPERATURE', temperature)
     const load = await si.currentLoad()
     const fullLoad = await si.fullLoad()
@@ -122,7 +120,7 @@ const actions = {
       fullLoad
     })
 
-    console.log('changing...')
+    // console.log('changing...')
   }
 } as ActionTree<CpuState, never>
 
