@@ -14,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Snackbar from '@/components/alert/Snackbar/index.vue'
 import FullScreenLoading from '@/components/Loding/index.vue'
+import si from 'systeminformation'
 
 @Component({
   name: 'Prototype',
@@ -24,19 +25,20 @@ import FullScreenLoading from '@/components/Loding/index.vue'
 })
 export default class Prototype extends Vue {
   private cpuInterval: any = null
+  private memoryInterval: any = null
 
   async created () {
     await this.preLoadInfo()
-    this.cpuInterval = setInterval(async () => {
-      await this.$store.dispatch('cpu/observeCpu')
-    }, 1000)
+    // this.setCpuInterval()
+    this.setMemoryInterval()
+    console.log(await si.getDynamicData())
   }
 
   beforeDestroy () {
-    if (this.cpuInterval) {
-      clearInterval(this.cpuInterval)
-      this.cpuInterval = null
-    }
+    clearInterval(this.cpuInterval)
+    clearInterval(this.memoryInterval)
+    this.cpuInterval = null
+    this.memoryInterval = null
   }
 
   /**
@@ -50,7 +52,20 @@ export default class Prototype extends Vue {
   private async preLoadInfo () {
     await this.$loading.openLoading()
     await this.$store.dispatch('cpu/initCpuInfo')
+    await this.$store.dispatch('memory/initMemoryInfo')
     await this.$loading.closeLoading()
+  }
+
+  private setCpuInterval () {
+    this.cpuInterval = setInterval(async () => {
+      await this.$store.dispatch('cpu/observeCpu')
+    }, 1000)
+  }
+
+  private setMemoryInterval () {
+    this.memoryInterval = setInterval(async () => {
+      await this.$store.dispatch('memory/observeMemory')
+    }, 1000)
   }
 }
 </script>

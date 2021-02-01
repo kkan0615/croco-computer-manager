@@ -111,7 +111,6 @@ const actions = {
     const speedDetail = await si.cpuCurrentSpeed()
     commit('SET_CPU_SPEED_DETAIL', speedDetail)
     const temperature = await si.cpuTemperature()
-    console.log(temperature)
     commit('SET_CPU_TEMPERATURE', temperature)
     const load = await si.currentLoad()
     const fullLoad = await si.fullLoad()

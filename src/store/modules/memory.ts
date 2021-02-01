@@ -1,16 +1,52 @@
 import { ActionTree, GetterTree, MutationTree } from 'vuex'
+import { MemoryState } from '@/interfaces/store/memory'
+import { Memory, MemoryLayout } from '@/interfaces/model/memory'
+import si from 'systeminformation'
 
-const state: any = {
+const state: MemoryState = {
+  total: 0,
+  free: 0,
+  freePercentage: 0,
+  used: 0,
+  usedPercentage: 0,
+  active: 0,
+  available: 0,
+  buffers: 0,
+  cached: 0,
+  slab: 0,
+  buffcache: 0,
+  swaptotal: 0,
+  swapused: 0,
+  swapfree: 0,
+  layouts: []
 }
 
 const getters = {
-} as GetterTree<any, never>
+} as GetterTree<MemoryState, never>
 
 const mutations = {
-} as MutationTree<any>
+  SET_MEMORY (state: MemoryState, payload: Memory) {
+    state.freePercentage = parseFloat((payload.free / payload.total * 100).toFixed(2))
+    state.usedPercentage = parseFloat((payload.used / payload.total * 100).toFixed(2))
+    state = Object.assign(state, payload)
+  },
+  SET_MEMORY_LAYOUT (state: MemoryState, payload: Memory) {
+    state.layouts = Object.assign(state.layouts, payload)
+  }
+} as MutationTree<MemoryState>
 
 const actions = {
-} as ActionTree<any, never>
+  async initMemoryInfo ({ commit }) {
+    const memory = await si.mem()
+    commit('SET_MEMORY', memory)
+    const layouts = await si.memLayout()
+    commit('SET_MEMORY_LAYOUT', layouts)
+  },
+  async observeMemory ({ commit }) {
+    const memory = await si.mem()
+    commit('SET_MEMORY', memory)
+  }
+} as ActionTree<MemoryState, never>
 
 export default {
   namespaced: true,
