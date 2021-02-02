@@ -3,7 +3,7 @@
     :color="$vuetify.theme.dark ? 'secondary' : 'primary'"
     :dark="!$vuetify.theme.dark"
     app
-    :height="30"
+    height="30px"
     dense
     elevation="0"
   >

@@ -11,7 +11,8 @@
         class="fill-height pa-1"
       >
         <v-card
-          height="30%"
+          height="49%"
+          width="100%"
           class="mb-2"
         >
           <echart-component
@@ -21,19 +22,12 @@
           />
         </v-card>
         <v-card
-          height="30%"
-          class="mb-2"
+          height="50%"
+          width="100%"
         >
           <echart-component
             ref="lineChartRef"
-            :option="usageOption"
-          />
-        </v-card>
-        <v-card
-          height="30%"
-        >
-          <echart-component
-            ref="lineChartRef"
+            height="100%"
             :option="usageOption"
           />
         </v-card>
@@ -105,8 +99,10 @@ export default class Cpu extends Vue {
       trigger: 'axis'
     },
     grid: {
-      left: '1%',
-      right: '1%',
+      height: '100%',
+      width: '90%',
+      left: '5%',
+      right: '5%',
       bottom: '1%',
       containLabel: true
     },
@@ -118,20 +114,20 @@ export default class Cpu extends Vue {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: []
+      data: [],
+      splitLine: {
+        show: false
+      },
     },
     yAxis: {
       type: 'value',
-      show: false
+      show: false,
     },
-    series: [
-      {
-        name: 'Usage',
-        type: 'line',
-        stack: '总量',
-        data: [],
-        areaStyle: {}
-      }
+    series: [{
+      type: 'line',
+      data: [],
+      areaStyle: {}
+    }
     ]
   }
   private cpuLineChartInterval: any = null
