@@ -16,6 +16,11 @@ import Snackbar from '@/components/alert/Snackbar/index.vue'
 import FullScreenLoading from '@/components/Loding/index.vue'
 import si from 'systeminformation'
 
+// import { exec, execSync } from 'child_process'
+// import { promisify } from 'util'
+// const execAsync = promisify(exec)
+// const gpuTempeturyCommand = 'nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader'
+const gpuTempeturyCommand = 'system_profiler SPDisplaysDataType'
 @Component({
   name: 'Prototype',
   components: {
@@ -24,19 +29,31 @@ import si from 'systeminformation'
   }
 })
 export default class Prototype extends Vue {
-  private cpuInterval: any = null
-  private memoryInterval: any = null
+  private cpuInterval: NodeJS.Timeout | null = null
+  private memoryInterval: NodeJS.Timeout | null  = null
+  private gpuInterval: NodeJS.Timeout | null  = null
+  private processInterval: NodeJS.Timeout | null  = null
 
   async created () {
     await this.preLoadInfo()
     // this.setCpuInterval()
     this.setMemoryInterval()
-    console.log(await si.getDynamicData())
+    // console.log(await si.time())
+    // console.log(await si.processes())
+    console.log(await si.getAllData())
+    console.log(await si.cpuTemperature())
+  }
+
+  async mounted () {
+    // console.log(await execSync(gpuTempeturyCommand))
   }
 
   beforeDestroy () {
-    clearInterval(this.cpuInterval)
-    clearInterval(this.memoryInterval)
+    if (this.cpuInterval)
+      clearInterval(this.cpuInterval)
+    if (this.memoryInterval)
+      clearInterval(this.memoryInterval)
+
     this.cpuInterval = null
     this.memoryInterval = null
   }

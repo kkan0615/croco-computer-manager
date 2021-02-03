@@ -2,6 +2,14 @@ import { ExtendedRouteConfig } from '@/interfaces/system/router'
 
 export const mainRouter: Array<ExtendedRouteConfig> = [
   {
+    path: 'general',
+    name: 'general',
+    meta:{
+      icon: 'business',
+    },
+    component: () => import('@/views/General/index.vue'),
+  },
+  {
     path: 'cpu',
     name: 'Cpu',
     meta:{
@@ -16,5 +24,21 @@ export const mainRouter: Array<ExtendedRouteConfig> = [
       icon: 'straighten',
     },
     component: () => import('@/views/Memory/index.vue'),
+  },
+  {
+    path: 'graphic',
+    name: 'Graphic',
+    meta:{
+      icon: 'monitor',
+    },
+    component: () => import('@/views/Graphic/index.vue'),
+  },
+  {
+    path: 'battery',
+    name: 'Battery',
+    meta:{
+      icon: 'battery_charging_full',
+    },
+    component: () => import('@/views/Battery/index.vue'),
   },
 ]

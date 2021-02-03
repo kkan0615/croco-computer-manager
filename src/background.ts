@@ -6,6 +6,12 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+// import { exec, execSync as execAsync } from 'child_process'
+// import { promisify } from 'util'
+// const execAsync = promisify(exec)
+// const gpuTempeturyCommand = 'nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader'
+// const gpuTempeturyCommand = 'system_profiler SPDisplaysDataType'
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -61,7 +67,6 @@ app.on('ready', async () => {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS_DEVTOOLS)
-      // console.log('testing...', await systeminformation.graphics())
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
