@@ -31,6 +31,10 @@ const actions = {
   setProcessInfo ({ commit }, payload: ProcessInfo) {
     commit('SET_CPU_INFO', payload)
   },
+  async observeProcess ({ commit }) {
+    const processes = await si.processes()
+    commit('SET_PROCESS_INFO', processes)
+  }
 } as ActionTree<any, never>
 
 export default {

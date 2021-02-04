@@ -38,6 +38,7 @@ export default class Prototype extends Vue {
     await this.preLoadInfo()
     // this.setCpuInterval()
     this.setMemoryInterval()
+    this.setProcessInterval()
     // console.log(await si.time())
     // console.log(await si.processes())
     console.log(await si.getAllData())
@@ -53,9 +54,12 @@ export default class Prototype extends Vue {
       clearInterval(this.cpuInterval)
     if (this.memoryInterval)
       clearInterval(this.memoryInterval)
+    if (this.processInterval)
+      clearInterval(this.processInterval)
 
     this.cpuInterval = null
     this.memoryInterval = null
+    this.processInterval = null
   }
 
   /**
@@ -83,6 +87,12 @@ export default class Prototype extends Vue {
     this.memoryInterval = setInterval(async () => {
       await this.$store.dispatch('memory/observeMemory')
     }, 1000)
+  }
+
+  private setProcessInterval () {
+    this.processInterval = setInterval(async () => {
+      await this.$store.dispatch('process/observeProcess')
+    }, 3000)
   }
 }
 </script>

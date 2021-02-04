@@ -41,4 +41,12 @@ export const mainRouter: Array<ExtendedRouteConfig> = [
     },
     component: () => import('@/views/Battery/index.vue'),
   },
+  {
+    path: 'process',
+    name: 'Process',
+    meta:{
+      icon: 'show_chart',
+    },
+    component: () => import('@/views/Process/index.vue'),
+  },
 ]
