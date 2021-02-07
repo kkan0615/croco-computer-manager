@@ -25,9 +25,6 @@ import 'devextreme/dist/css/dx.softblue.compact.css'
 
 /* 스타일 파일을 switch 하면 theme 변경 가능 */
 import 'devextreme/dist/css/dx.light.css'
-//import 'devextreme/dist/css/dx.carmine.css'
-//import 'devextreme/dist/css/dx.dark.css'
-import systeminformation from 'systeminformation'
 
 Vue.config.productionTip = false
 

@@ -10,14 +10,12 @@ const modules: ModuleTree<unknown> = modulesFiles.keys().reduce((modules: Module
   // set './app.js' => 'app'
   const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
   const value = modulesFiles(modulePath)
+  // console.log(value)
   modules[moduleName] = value.default
   return modules
 }, {})
 
 const store = new Vuex.Store({
-  // plugins: [
-  //   createPersistedState()
-  // ],
   modules
 })
 

@@ -1,16 +1,17 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
-import systeminformation from 'systeminformation'
+import {
+  app,
+  protocol,
+  BrowserWindow,
+  ipcRenderer,
+  ipcMain,
+  NotificationConstructorOptions
+} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { setNotificationIpcMain, showSystemNotificiation } from '@/electron/notification'
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
-// import { exec, execSync as execAsync } from 'child_process'
-// import { promisify } from 'util'
-// const execAsync = promisify(exec)
-// const gpuTempeturyCommand = 'nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader'
-// const gpuTempeturyCommand = 'system_profiler SPDisplaysDataType'
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -43,6 +44,8 @@ async function createWindow () {
     win.loadURL('app://./index.html')
   }
 }
+
+setNotificationIpcMain()
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

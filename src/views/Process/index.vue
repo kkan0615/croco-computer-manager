@@ -7,6 +7,15 @@
       :items="process.list"
       class="elevation-1"
     />
+    <v-text-field
+      v-model="pid"
+      type="number"
+    />
+    <v-btn
+      @click="killProcess"
+    >
+      kill
+    </v-btn>
   </div>
 </template>
 
@@ -45,13 +54,11 @@ export default class Processes extends Vue {
     { text: 'path', value: 'path' },
   ]
 
-  // nice: 0,
-  // started: '2020-02-08 10:18:15',
-  // state: 'sleeping',
-  // tty: '',
-  // user: 'root',
-  // command: 'init',
-  // params: '',
-  // path: '/sbin'
+  private pid = 0
+
+  private killProcess () {
+    process.kill(Number(this.pid), 'SIGKILL')
+    this.pid = 0
+  }
 }
 </script>
