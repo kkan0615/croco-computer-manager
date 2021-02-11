@@ -1,13 +1,17 @@
+export interface AudioInfo {
+  audios: Array<Audio>
+}
+
 export interface Audio {
   id: number
   name: string
   manufacturer: string
-  revision: null
-  driver: null
-  default: true
-  channel: 'Built-In'
-  type: 'Microphone'
-  in: true
-  out: false
-  status: 'online'
+  revision: any
+  driver: any
+  default: boolean
+  channel: string
+  type: string
+  in: boolean
+  out: boolean
+  status: string
 }
