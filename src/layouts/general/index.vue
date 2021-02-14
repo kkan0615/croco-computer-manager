@@ -35,6 +35,6 @@ export default class GeneralLayout extends Vue {
     height: 30px !important;
   }
   .main {
-    height: calc(100vh - 7px) !important;
+    height: calc(100vh - 30px) !important;
   }
 </style>

@@ -1,79 +1,18 @@
 <template>
-  <div>
+  <div
+    class="d-flex"
+  >
+    <!-- @TODO: 나중에 meta.title로 변경하기 + i18n 추가 -->
     <div
-      class="d-flex"
+      class="subtitle-6"
     >
-      <!-- @TODO: 나중에 meta.title로 변경하기 + i18n 추가 -->
-      <div
-        class="subtitle-6"
-      >
-        {{ $t('router.' + $route.name + '.title') }}
-      </div>
-      <v-spacer />
-      <v-breadcrumbs
-        class="pa-0"
-        :items="breadcrumbs"
-      />
+      {{ $route.name }}
     </div>
-    <v-divider />
-    <!-- Filter 부분 -->
-    <div
-      class="mt-1"
-    >
-      <v-row
-        class="compact-form pa-0"
-      >
-        <v-col
-          :cols="3"
-        >
-          <v-text-field
-            label="title"
-            height="10px"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col
-          :cols="3"
-        >
-          <v-text-field
-            label="title"
-            height="10px"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col
-          :cols="3"
-        >
-          <v-text-field
-            label="title"
-            height="10px"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col
-          :cols="2"
-        >
-          <v-text-field
-            label="title"
-            height="10px"
-            outlined
-            dense
-          />
-        </v-col>
-        <v-col
-          :cols="1"
-        >
-          <v-btn
-            color="primary"
-          >
-            {{ $t('components.topFilter.search') }}
-          </v-btn>
-        </v-col>
-      </v-row>
-    </div>
+    <v-spacer />
+    <v-breadcrumbs
+      class="pa-0"
+      :items="breadcrumbs"
+    />
   </div>
 </template>
 

@@ -1,18 +1,16 @@
 <template>
   <div
     class="fill-height"
-    style="max-height: 100%"
   >
     <v-row
-      class="fill-height"
+      class="fill-height ma-0"
     >
       <v-col
         :cols="8"
         class="fill-height pa-1"
       >
         <v-card
-          height="49%"
-          width="100%"
+          height="50%"
           class="mb-2"
         >
           <echart-component
@@ -22,53 +20,34 @@
           />
         </v-card>
         <v-card
-          height="50%"
-          width="100%"
+          v-if="cpuTemperature.main"
+          height="49%"
         >
-          <echart-component
-            ref="lineChartRef"
-            height="100%"
-            :option="usageOption"
-          />
+          temperature
+        </v-card>
+        <v-card
+          v-else
+          height="49%"
+        >
+          <v-container
+            class="fill-height"
+            fluid
+          >
+            <v-row
+              justify="center"
+              align-content="center"
+            >
+              Temperature is not supported, <br>
+              Please run program as admin
+            </v-row>
+          </v-container>
         </v-card>
       </v-col>
       <v-col
         :cols="4"
         class="fill-height pa-1"
       >
-        <v-card
-          class="fill-height"
-        >
-          <v-card-title class="pa-1">
-            {{ cpu.manufacturer }} - {{ cpu.brand }}
-          </v-card-title>
-          <v-divider />
-          <v-card-text class="pa-1">
-            <!-- Cores -->
-            <flex-description-cpu
-              label="Cores:"
-              :content="cpu.cores"
-            />
-            <!-- Physical Cores -->
-            <flex-description-cpu
-              label="Physical Cores:"
-              :content="cpu.physicalCores"
-            />
-            <!-- Socket + processors -->
-            <flex-description-cpu
-              :label="`Socket (${cpu.socket})`"
-              :content="cpu.processors"
-            />
-            <flex-description-cpu
-              label="Virtualization"
-              :content="cpu.virtualization ? 'Yes' : 'No'"
-            />
-            <flex-description-cpu
-              label="Default Speed"
-              :content="cpu.speedMax"
-            />
-          </v-card-text>
-        </v-card>
+        <detail-cpu />
       </v-col>
     </v-row>
   </div>
@@ -78,33 +57,36 @@
 import { Component, Ref, Vue } from 'vue-property-decorator'
 import { CpuState } from '@/interfaces/store/cpu'
 import FlexDescriptionCpu from '@/views/Cpu/components/FlexDescription.vue'
-import Os from 'os'
 import EchartComponent from '@/components/Echart/index.vue'
-import { EChartsOption } from 'echarts'
-import { mapState } from 'vuex'
+import { EChartsOption, EChartsType } from 'echarts'
+import { mapGetters, mapState } from 'vuex'
+import {
+  CentralProcessingUnitLoad,
+  CentralProcessingUnitTemperature
+} from '@/interfaces/model/CentralProcessingUnti'
+import DetailCpu from '@/views/Cpu/components/Detail.vue'
+import Login from '@/views/Login/index.vue'
 
 @Component({
   name: 'Cpu',
-  components: { EchartComponent, FlexDescriptionCpu },
+  components: { DetailCpu, EchartComponent, FlexDescriptionCpu },
   computed: {
+    ...mapGetters('cpu', [
+      'cpuLoads',
+      'cpuTemperature'
+    ]),
     ...mapState('cpu', {
       cpu: state => state as CpuState
-    })
+    }),
   }
 })
 export default class Cpu extends Vue {
   private cpu !: CpuState
+  private cpuLoads !: CentralProcessingUnitLoad
+  private cpuTemperature !: CentralProcessingUnitTemperature
   private usageOption: EChartsOption = {
     tooltip: {
       trigger: 'axis'
-    },
-    grid: {
-      height: '100%',
-      width: '90%',
-      left: '5%',
-      right: '5%',
-      bottom: '1%',
-      containLabel: true
     },
     toolbox: {
       feature: {
@@ -121,7 +103,6 @@ export default class Cpu extends Vue {
     },
     yAxis: {
       type: 'value',
-      show: false,
     },
     series: [{
       type: 'line',
@@ -130,35 +111,42 @@ export default class Cpu extends Vue {
     }
     ]
   }
-  private cpuLineChartInterval: any = null
-  private historyOfUsuage: Array<number> = []
+  private cpuLineChartInterval: NodeJS.Timeout | null = null
+  private historyOfUsuage: Array<number> = [0]
 
   @Ref('lineChartRef')
-  private readonly lineChartRef !: any
+  private readonly lineChartRef !: EChartsType
 
   created () {
-    for (let i = 0; i < 60; i++) {
-      if (!this.usageOption.xAxis || Array.isArray(this.usageOption.xAxis)) break
-      this.usageOption.xAxis.data?.push(`${60 - i}(sec)`)
-    }
-    this.initCpuLineChartInterval()
+    this.setCpuUsuageChart()
     console.log(this.cpu)
+
   }
 
   beforeDestroy () {
     this.disposeCpuLineChartInterval()
   }
 
+  private setCpuUsuageChart () {
+    for (let i = 0; i < 60; i++) {
+      if (!this.usageOption.xAxis || Array.isArray(this.usageOption.xAxis)) break
+      this.usageOption.xAxis.data?.push(`${60 - i}(sec)`)
+    }
+
+    this.initCpuLineChartInterval()
+  }
+
   private initCpuLineChartInterval () {
-    this.cpuLineChartInterval = setInterval(async () => {
-      if (this.historyOfUsuage.length > 60) this.historyOfUsuage.shift()
-      this.historyOfUsuage.push(parseFloat(this.cpu.load.currentLoadUser.toFixed(2)))
-      this.lineChartRef.setOption({
-        series: [{
-          data: this.historyOfUsuage
-        }]
-      })
-      console.log(Os.cpus())
+    this.cpuLineChartInterval = setInterval(() => {
+      if (this.cpuLoads && this.cpuLoads.currentLoadUser) {
+        if (this.historyOfUsuage.length > 60) this.historyOfUsuage.shift()
+        this.historyOfUsuage.push(parseFloat(this.cpuLoads.currentLoadUser.toFixed(2)))
+        this.lineChartRef.setOption({
+          series: [{
+            data: this.historyOfUsuage
+          }]
+        })
+      }
     }, 1000)
   }
 

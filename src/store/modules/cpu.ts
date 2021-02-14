@@ -35,6 +35,12 @@ const state: CpuState = {
 }
 
 const getters = {
+  cpuLoads (state: CpuState) {
+    return state.load
+  },
+  cpuTemperature (state: CpuState) {
+    return state.temperature
+  },
 } as GetterTree<CpuState, never>
 
 const mutations = {
@@ -70,8 +76,6 @@ const mutations = {
 const actions = {
   async initCpuInfo ({ commit }) {
     const cpu = await si.cpu()
-    // console.log(si.cpuCurrentspeed())
-    // @TODO: Systeminfomation에 버그가 존재함, 이름이 틀림
     const speedDetail = await si.cpuCurrentSpeed()
     const temperature = await si.cpuTemperature()
     const cachedCpu = await si.cpuCache()
