@@ -45,12 +45,12 @@ export default class Prototype extends Vue {
 
   async created () {
     await this.preLoadInfo()
-    this.setCpuInterval()
+    // this.setCpuInterval()
     this.setMemoryInterval()
-    this.setProcessInterval()
-    this.setGpuInterval()
-    console.log(await si.getAllData())
-    console.log(await si.cpuTemperature())
+    // this.setProcessInterval()
+    // this.setGpuInterval()
+    // console.log(await si.getAllData())
+    // console.log(await si.cpuTemperature())
     await this.$loading.closeLoading()
 
     // ipcRenderer.send(SystemNotificationChanel.SHOW_SYSTEM_NOTIFICATION, {

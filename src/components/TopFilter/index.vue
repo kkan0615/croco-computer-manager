@@ -6,6 +6,9 @@
     <div
       class="subtitle-6"
     >
+      <v-icon>
+        {{ $route.meta.icon }}
+      </v-icon>
       {{ $route.name }}
     </div>
     <v-spacer />

@@ -13,5 +13,5 @@ export const toFormattedLocaleString = (number: number, maximumFractionDigits = 
 }
 
 export const getFixedNumber = (number: number, fixed = DEFAULT_FIXED_NUMBER) => {
-  return number = parseFloat(number.toFixed(fixed))
+  return parseFloat(number.toFixed(fixed))
 }

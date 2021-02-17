@@ -2,78 +2,112 @@
   <div
     class="fill-height"
   >
-    {{ memory }}
-    <v-tabs
-      v-model="tabIndex"
+    <!--    {{ memory }}-->
+    <v-card>
+      <top-filter
+        v-height="'7%'"
+        class="mb-2"
+      />
+    </v-card>
+    <v-row
+      v-height="'92%'"
+      class="ma-0"
     >
-      <v-tab>
-        General
-      </v-tab>
-      <v-tab
-        v-for="(layout, index) in memory.layouts"
-        :key="index"
+      <v-col
+        v-height="'100%'"
+        class="pa-0"
       >
-        {{ layout.serialNum }}
-      </v-tab>
-      <v-tab-item>
-        <!--        {{ memory }}-->
         <v-card
-          width="100%"
           class="mb-2"
+          height="50%"
         >
-          <echart-component
-            ref="lineChartRef"
-            :option="usageOption"
-          />
-        </v-card>
-        <v-row>
-          <v-col>
-            <v-card>
+          <v-container
+            fluid
+            class="fill-height"
+          >
+            <v-row
+              justify="center"
+              align="center"
+            >
               <usage-progressive-circular-memory
+                class="mr-4"
                 :rotate="-90"
                 :value="memory.usedPercentage"
                 color="error"
+                title="Used"
               />
-              <div>
-                used
-              </div>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card>
+
               <usage-progressive-circular-memory
-                :rotate="0"
+                class="ml-4"
+                :rotate="60"
                 :value="memory.freePercentage"
                 color="info"
+                title="Free"
               />
-              <div>
-                free
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-tab-item>
-      <v-tab-item
-        v-for="layout in memory.layouts"
-        :key="layout.serialNum"
+            </v-row>
+          </v-container>
+        </v-card>
+        <v-card
+          height="49%"
+        >
+          test
+          <!--          {{ memory }}-->
+        </v-card>
+      </v-col>
+      <v-col
+        class="fill-height"
       >
-        {{ layout }}
-      </v-tab-item>
-    </v-tabs>
+        <div
+          v-height="'9%'"
+          class="mb-2"
+        >
+          <v-select
+            v-model="selectedIndex"
+            outlined
+            dense
+            hide-details
+            item-text="name"
+            item-value="id"
+            :items="selectedItems"
+          />
+        </div>
+        <div
+          v-height="'90%'"
+        >
+          <general-detail-memory
+            v-if="selectedIndex === 0"
+            :memory="memory"
+          />
+          <detail-memory
+            v-else
+            :memory-layout="selectedRamMemory"
+          />
+        </div>
+      </v-col>
+    </v-row>
+    <!-- <v-tab-item -->
+    <!--        v-for="layout in memory.layouts"-->
+    <!--        :key="layout.serialNum"-->
+    <!--      >-->
+    <!--        {{ layout }}-->
+    <!--      </v-tab-item>-->
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import { MemoryState } from '@/interfaces/store/memory'
 import UsageProgressiveCircularMemory from '@/views/Memory/components/UsageProgressiveCircular.vue'
-import { EChartsOption } from 'echarts'
 import EchartComponent from '@/components/Echart/index.vue'
+import TopFilter from '@/components/TopFilter/index.vue'
+import DetailMemory from '@/views/Memory/components/Detail.vue'
+import { MemoryLayout } from '@/interfaces/model/ramMemory'
+import GeneralDetailMemory from '@/views/Memory/components/GeneralDetail.vue'
 
 @Component({
   name: 'Memory',
-  components: { EchartComponent, UsageProgressiveCircularMemory },
+  components: { GeneralDetailMemory, DetailMemory, TopFilter, EchartComponent, UsageProgressiveCircularMemory },
   computed: {
     ...mapState('memory', {
       memory: state => state as MemoryState
@@ -82,77 +116,30 @@ import EchartComponent from '@/components/Echart/index.vue'
 })
 export default class Memory extends Vue {
   private memory !: MemoryState
-  private tabIndex = 0
-  private memoryUsageHistories: Array<number> = []
-  private usageOption: EChartsOption = {
-    tooltip: {
-      trigger: 'axis'
-    },
-    grid: {
-      left: '1%',
-      right: '1%',
-      bottom: '1%',
-      width: '100%',
-      containLabel: true
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
-      }
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: []
-    },
-    yAxis: {
-      type: 'value',
-      show: false
-    },
-    series: [
-      {
-        name: 'Usage',
-        type: 'line',
-        stack: '总量',
-        data: [],
-        areaStyle: {}
-      }
-    ]
-  }
-  private memoryUsageInterval:  NodeJS.Timeout | null = null
 
-  @Ref('lineChartRef')
-  private readonly lineChartRef !: any
+  /* 0이면 전체 */
+  private selectedIndex = 0
 
-  created () {
-    for (let i = 0; i < 60; i++) {
-      if (!this.usageOption.xAxis || Array.isArray(this.usageOption.xAxis)) break
-      this.usageOption.xAxis.data?.push(`${60 - i}(sec)`)
-    }
-    this.initMemoryUsageInterval()
+  private get selectedRamMemory () {
+    if (this.selectedIndex === 0)
+      return {} as MemoryLayout
+    return this.memory.layouts[this.selectedIndex - 1]
   }
 
-  beforeDestroy () {
-    this.disposeCpuLineChartInterval()
-  }
+  private get selectedItems () {
+    const result = [{
+      id: 0,
+      name: 'General'
+    }]
 
-  private initMemoryUsageInterval () {
-    this.memoryUsageInterval = setInterval(async () => {
-      if (this.memoryUsageHistories.length > 60) this.memoryUsageHistories.shift()
-      this.memoryUsageHistories.push(this.memory.usedPercentage)
-      this.lineChartRef.setOption({
-        series: [{
-          data: this.memoryUsageHistories
-        }]
+    for (let i = 0; i < this.memory.layouts.length; i++) {
+      result.push({
+        id: i + 1,
+        name: this.memory.layouts[i].serialNum
       })
-    }, 1000)
-  }
-
-  private disposeCpuLineChartInterval () {
-    if (this.memoryUsageInterval) {
-      clearInterval(this.memoryUsageInterval)
-      this.memoryUsageInterval = null
     }
+
+    return result
   }
 }
 </script>

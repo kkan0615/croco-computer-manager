@@ -1,4 +1,4 @@
-export interface Memory {
+export interface RamMemory {
   total: number
   free: number
   freePercentage: number

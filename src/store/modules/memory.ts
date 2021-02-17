@@ -1,6 +1,6 @@
 import { ActionTree, GetterTree, MutationTree } from 'vuex'
 import { MemoryState } from '@/interfaces/store/memory'
-import { Memory, MemoryLayout } from '@/interfaces/model/memory'
+import { RamMemory, MemoryLayout } from '@/interfaces/model/ramMemory'
 import si from 'systeminformation'
 
 const state: MemoryState = {
@@ -25,12 +25,12 @@ const getters = {
 } as GetterTree<MemoryState, never>
 
 const mutations = {
-  SET_MEMORY (state: MemoryState, payload: Memory) {
+  SET_MEMORY (state: MemoryState, payload: RamMemory) {
     state.freePercentage = parseFloat((payload.free / payload.total * 100).toFixed(2))
     state.usedPercentage = parseFloat((payload.used / payload.total * 100).toFixed(2))
     state = Object.assign(state, payload)
   },
-  SET_MEMORY_LAYOUT (state: MemoryState, payload: Memory) {
+  SET_MEMORY_LAYOUT (state: MemoryState, payload: RamMemory) {
     state.layouts = Object.assign(state.layouts, payload)
   }
 } as MutationTree<MemoryState>
@@ -38,9 +38,11 @@ const mutations = {
 const actions = {
   async initMemoryInfo ({ commit }) {
     const memory = await si.mem()
-    commit('SET_MEMORY', memory)
     const layouts = await si.memLayout()
-    commit('SET_MEMORY_LAYOUT', layouts)
+    commit('SET_MEMORY', {
+      ...memory,
+      layouts,
+    } as MemoryState)
   },
   async observeMemory ({ commit }) {
     const memory = await si.mem()

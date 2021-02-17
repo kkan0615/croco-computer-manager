@@ -1,13 +1,22 @@
 <template>
-  <v-progress-circular
-    :rotate="rotate"
-    :size="100"
-    :width="15"
-    :value="value"
-    :color="color"
-  >
-    {{ value }} %
-  </v-progress-circular>
+  <div>
+    <v-progress-circular
+      class="mb-3"
+      :rotate="rotate"
+      :size="100"
+      :width="15"
+      :value="value"
+      :color="color"
+    >
+      {{ value }} %
+    </v-progress-circular>
+    <br>
+    <div
+      class="text-center"
+    >
+      {{ title }}
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,5 +32,7 @@ export default class UsageProgressiveCircularMemory extends Vue {
   private readonly color !: string
   @Prop({ type: Number, required: true })
   private readonly value !: string
+  @Prop({ type: String, required: true })
+  private readonly title !: string
 }
 </script>

@@ -1,4 +1,4 @@
-import { Memory } from '@/interfaces/model/memory'
+import { RamMemory } from '@/interfaces/model/ramMemory'
 
 /* 필요시 interface로 변경하기 */
-export type MemoryState = Memory
+export type MemoryState = RamMemory
